@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>advanced-freeze-panes-table — demo</title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        margin: 0;
+        background: #f4f2ec;
+        color: #2a2417;
+      }
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin: 0 0 0.25rem;
+      }
+      .sub {
+        color: #6b6353;
+        margin: 0 0 2rem;
+      }
+      section {
+        margin-bottom: 3rem;
+      }
+      h2 {
+        font-size: 1.05rem;
+        margin: 0 0 0.35rem;
+      }
+      section p {
+        font-size: 0.85rem;
+        color: #6b6353;
+        margin: 0 0 0.75rem;
+      }
+      .controls {
+        margin-bottom: 0.75rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        border: 1px solid #c9b891;
+        background: #fff;
+        border-radius: 6px;
+        padding: 0.35rem 0.8rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+      button:hover {
+        background: #fdf3dd;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .mount {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .badge {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: #e7e2d4;
+        color: #6b6353;
+        vertical-align: middle;
+      }
+      .badge--active {
+        background: #2f6f4f;
+        color: #fff;
+      }
+      .aft__table--advanced {
+        min-width: 100%;
+      }
+      .demo-dark {
+        background: #18181b;
+      }
+      .demo-dark .mount {
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>advanced-freeze-panes-table</h1>
+      <p class="sub">
+        Premium freeze panes — adaptive mode, right-side freeze, boundary-stick panes, themes,
+        bold panes, header arrows, and image/text cells. Build first (<code>npm run build</code>),
+        then open this file.
+      </p>
+
+      <section>
+        <h2>1. Adaptive mode — responsive table vs frozen table</h2>
+        <p>
+          Small data with no freeze renders as a plain responsive table. Adding a freeze config on
+          the same data switches to the advanced frozen table automatically.
+        </p>
+        <div class="controls">
+          <button id="ad-tog">Add freeze config</button>
+          <span id="ad-mode" class="badge">mode: table</span>
+        </div>
+        <div class="mount" id="demo-adaptive"></div>
+      </section>
+
+      <section>
+        <h2>2. Auto threshold — big data switches automatically</h2>
+        <p>
+          Currently <span id="auto-count">10</span> rows. Load 200 rows and the table switches to
+          the advanced frozen table on its own.
+        </p>
+        <div class="controls">
+          <button id="auto-load">Load 200 rows</button>
+          <span id="auto-mode" class="badge">mode: table</span>
+        </div>
+        <div class="mount" id="demo-auto"></div>
+      </section>
+
+      <section>
+        <h2>3. Financial grid — freeze top + left + right, themes, arrows</h2>
+        <p>
+          Freeze the header, the ticker column, and the trailing signal column; dark theme,
+          compact density, header arrows, bold header, and bold frozen-left pane.
+        </p>
+        <div class="controls">
+          <button id="theme-tog">Toggle dark theme</button>
+          <button id="density-tog">Toggle density</button>
+          <button id="bold-header-tog">Bold header: on</button>
+          <button id="bold-left-tog">Bold left pane: on</button>
+          <button id="arrows-tog">Header arrows: on</button>
+        </div>
+        <div class="mount" id="demo-finance"></div>
+      </section>
+
+      <section>
+        <h2>4. Excel-style freeze panes at a cell</h2>
+        <p>
+          <code>freezeAt: { row: 2, col: 3 }</code> freezes every row above and every column to the
+          left of that cell.
+        </p>
+        <div class="mount" id="demo-freezeat"></div>
+      </section>
+
+      <section>
+        <h2>5. Boundary-stick panes</h2>
+        <p>
+          Frozen cells scroll normally until they touch their pane edge (top, left, or right) and
+          only then stick — the Excel feel.
+        </p>
+        <div class="mount" id="demo-stick"></div>
+      </section>
+
+      <section>
+        <h2>6. Pinned cells + programmatic scroll</h2>
+        <div class="controls">
+          <button id="pin-tog">Toggle pinned cell</button>
+          <button id="scroll-to">scrollToCell(40, 8)</button>
+        </div>
+        <div class="mount" id="demo-pinned"></div>
+      </section>
+
+      <section>
+        <h2>7. Image + text cells</h2>
+        <p>
+          Sparkline images with object-fit, right-aligned numeric text, centered badges. Cycle the
+          default image fit.
+        </p>
+        <div class="controls">
+          <button id="fit-cycle">Cycle image fit (contain)</button>
+        </div>
+        <div class="mount" id="demo-rich"></div>
+      </section>
+
+      <section>
+        <h2>8. Live updates</h2>
+        <p><code>update()</code> re-renders without rebuilding the controller.</p>
+        <div class="controls">
+          <button id="upd">Shuffle data</button>
+        </div>
+        <div class="mount" id="demo-update"></div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { createAdvancedTable } from './dist/esm/index.js';
+
+      const COLUMNS = Array.from({ length: 12 }, (_, c) => ({
+        key: `Col ${String.fromCharCode(65 + c)}`,
+        width: 110,
+      }));
+
+      const rows = (n, cols = 12) =>
+        Array.from({ length: n }, (_, r) =>
+          Array.from({ length: cols }, (_, c) => `R${r}C${c}`),
+        );
+
+      function setMode(id, mode) {
+        const badge = document.getElementById(id);
+        badge.textContent = `mode: ${mode}`;
+        badge.classList.toggle('badge--active', mode === 'advanced');
+      }
+
+      // ---- 1. Adaptive: plain table -> advanced with a freeze config ----
+      let adaptiveFrozen = false;
+      const adaptive = createAdvancedTable(document.querySelector('#demo-adaptive'), {
+        columns: COLUMNS,
+        rows: rows(8),
+        headerRows: 1,
+        maxWidth: 760,
+      });
+      setMode('ad-mode', 'table');
+
+      document.querySelector('#ad-tog').addEventListener('click', () => {
+        adaptiveFrozen = !adaptiveFrozen;
+        adaptive.update({
+          freeze: adaptiveFrozen ? { freezeRows: 1, freezeCols: 1 } : undefined,
+        });
+        document.querySelector('#ad-tog').textContent = adaptiveFrozen
+          ? 'Remove freeze config'
+          : 'Add freeze config';
+        setMode('ad-mode', adaptiveFrozen ? 'advanced' : 'table');
+      });
+
+      // ---- 2. Auto threshold ----
+      const auto = createAdvancedTable(document.querySelector('#demo-auto'), {
+        columns: COLUMNS,
+        rows: rows(10),
+        headerRows: 1,
+        advancedThreshold: 50,
+        maxWidth: 760,
+      });
+      setMode('auto-mode', 'table');
+      document.querySelector('#auto-load').addEventListener('click', () => {
+        const big = rows(200);
+        auto.update({ rows: big });
+        document.getElementById('auto-count').textContent = '200';
+        setMode('auto-mode', 'advanced');
+        document.querySelector('#auto-load').disabled = true;
+      });
+
+      // ---- 3. Financial grid ----
+      function sparkline(values, color = '#2f6f4f') {
+        const w = 80;
+        const h = 40;
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const pts = values
+          .map(
+            (v, i) =>
+              `${((i / (values.length - 1)) * w).toFixed(1)},${(
+                h - ((v - min) / (max - min || 1)) * (h - 6) -
+                3
+              ).toFixed(1)}`,
+          )
+          .join(' ');
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2"/></svg>`;
+        return 'data:image/svg+xml,' + encodeURIComponent(svg);
+      }
+
+      function finData(n) {
+        const symbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX'];
+        let price = 100;
+        return Array.from({ length: n }, (_, r) => {
+          price = Math.max(5, price + (Math.random() - 0.48) * 8);
+          const change = (Math.random() - 0.5) * 6;
+          const spark = Array.from(
+            { length: 24 },
+            () => price * (1 + (Math.random() - 0.5) * 0.08),
+          );
+          return [
+            symbols[r % symbols.length],
+            price.toFixed(2),
+            {
+              type: 'text',
+              text: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+              align: 'right',
+            },
+            { type: 'image', src: sparkline(spark), alt: 'trend', align: 'center', width: 80, height: 40 },
+            (Math.random() * 90 + 10).toFixed(2),
+            (Math.floor(Math.random() * 1000000) + 100000).toLocaleString('en-US'),
+            { type: 'text', text: 'Hold', align: 'center' },
+          ];
+        });
+      }
+
+      const FIN_COLUMNS = [
+        { key: 'Ticker', width: 90 },
+        { key: 'Price', width: 90 },
+        { key: 'Change', width: 90 },
+        { key: '24h trend', width: 100 },
+        { key: 'P/E', width: 80 },
+        { key: 'Volume', width: 110 },
+        { key: 'Signal', width: 90 },
+      ];
+
+      const finance = createAdvancedTable(document.querySelector('#demo-finance'), {
+        columns: FIN_COLUMNS,
+        rows: finData(120),
+        headerRows: 1,
+        freeze: { freezeRows: 1, freezeCols: 1, freezeRightCols: 1 },
+        theme: 'light',
+        density: 'compact',
+        boldHeader: true,
+        boldFrozenLeft: true,
+        headerArrows: true,
+        maxHeight: 420,
+      });
+
+      let dark = false;
+      let compact = true;
+      document.querySelector('#theme-tog').addEventListener('click', () => {
+        dark = !dark;
+        finance.update({ theme: dark ? 'dark' : 'light' });
+        document.body.classList.toggle('demo-dark', dark);
+      });
+      document.querySelector('#density-tog').addEventListener('click', () => {
+        compact = !compact;
+        finance.update({ density: compact ? 'compact' : 'roomy' });
+      });
+      document.querySelector('#bold-header-tog').addEventListener('click', (e) => {
+        const on = finance.element.classList.contains('aft--header-normal');
+        finance.update({ boldHeader: on });
+        e.target.textContent = `Bold header: ${on ? 'on' : 'off'}`;
+      });
+      document.querySelector('#bold-left-tog').addEventListener('click', (e) => {
+        const off = finance.element.querySelectorAll('.aft__cell--pane-bold').length === 0;
+        finance.update({ boldFrozenLeft: off });
+        e.target.textContent = `Bold left pane: ${off ? 'on' : 'off'}`;
+      });
+      document.querySelector('#arrows-tog').addEventListener('click', (e) => {
+        const on = e.target.textContent.includes('on');
+        finance.update({ headerArrows: !on });
+        e.target.textContent = `Header arrows: ${on ? 'off' : 'on'}`;
+      });
+
+      // ---- 4. Freeze panes at a cell ----
+      createAdvancedTable(document.querySelector('#demo-freezeat'), {
+        columns: COLUMNS,
+        rows: rows(50),
+        freeze: { freezeAt: { row: 2, col: 3 } },
+        maxHeight: 320,
+        maxWidth: 760,
+      });
+
+      // ---- 5. Boundary-stick panes ----
+      createAdvancedTable(document.querySelector('#demo-stick'), {
+        columns: COLUMNS,
+        rows: rows(50),
+        headerRows: 1,
+        freeze: { freezeRows: 1, freezeCols: 1, freezeRightCols: 1 },
+        maxHeight: 320,
+        maxWidth: 760,
+      });
+
+      // ---- 6. Pinned cells + scrollToCell ----
+      let pinned = true;
+      const pinnedTable = createAdvancedTable(document.querySelector('#demo-pinned'), {
+        columns: COLUMNS,
+        rows: rows(60),
+        headerRows: 1,
+        freeze: {
+          freezeRows: 1,
+          freezeCols: 1,
+          pinnedCells: [{ row: 3, col: 3 }],
+        },
+        maxHeight: 320,
+        maxWidth: 760,
+      });
+      document.querySelector('#pin-tog').addEventListener('click', (e) => {
+        pinned = !pinned;
+        pinnedTable.update({
+          freeze: {
+            freezeRows: 1,
+            freezeCols: 1,
+            pinnedCells: pinned ? [{ row: 5, col: 6 }] : [],
+          },
+        });
+        e.target.textContent = pinned ? 'Remove pinned cell' : 'Pin a cell';
+      });
+      document.querySelector('#scroll-to').addEventListener('click', () => {
+        pinnedTable.scrollToCell(40, 8);
+      });
+
+      // ---- 7. Image + text cells ----
+      const FIT = ['contain', 'cover', 'fill'];
+      let fitIdx = 0;
+      const rich = createAdvancedTable(document.querySelector('#demo-rich'), {
+        columns: [
+          { key: 'Product', width: 140 },
+          { key: 'Photo', width: 120 },
+          { key: 'Price', width: 100 },
+          { key: 'Rating', width: 100 },
+        ],
+        rows: [
+          ['Espresso', { type: 'image', src: sparkline([1, 2, 1.5, 3, 2.5, 4, 3.5, 5]), align: 'center', width: 80, height: 48 }, { type: 'text', text: '$3.50', align: 'right' }, { type: 'text', text: '★★★★☆', align: 'center' }],
+          ['Croissant', { type: 'image', src: sparkline([5, 4, 4.5, 3, 3.5, 2, 3, 2.5], '#b0563a'), align: 'center', width: 80, height: 48 }, { type: 'text', text: '$2.25', align: 'right' }, { type: 'text', text: '★★★☆☆', align: 'center' }],
+          ['Latte', { type: 'image', src: sparkline([2, 3, 2.5, 4, 5, 4.5, 5, 5], '#2f6f4f'), align: 'center', width: 80, height: 48 }, { type: 'text', text: '$4.00', align: 'right' }, { type: 'text', text: '★★★★★', align: 'center' }],
+        ],
+        imageFit: 'contain',
+        maxWidth: 600,
+      });
+      document.querySelector('#fit-cycle').addEventListener('click', (e) => {
+        fitIdx = (fitIdx + 1) % FIT.length;
+        rich.update({ imageFit: FIT[fitIdx] });
+        e.target.textContent = `Cycle image fit (${FIT[fitIdx]})`;
+      });
+
+      // ---- 8. Live updates ----
+      const upd = createAdvancedTable(document.querySelector('#demo-update'), {
+        columns: COLUMNS,
+        rows: rows(30),
+        headerRows: 1,
+        freeze: { freezeRows: 1, freezeCols: 1 },
+        maxHeight: 320,
+        maxWidth: 760,
+      });
+      document.querySelector('#upd').addEventListener('click', () => {
+        upd.update({ rows: rows(30) });
+      });
+    </script>
+  </body>
+</html>
