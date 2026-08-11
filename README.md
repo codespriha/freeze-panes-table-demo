@@ -1,8 +1,41 @@
 # advanced-freeze-panes-table — live demo
 
-Public demo site for the premium [`advanced-freeze-panes-table`](https://www.npmjs.com/package/advanced-freeze-panes-table)
+Public demo site for the premium [`@codespriha/advanced-freeze-panes-table`](https://github.com/codespriha/advanced-freeze-panes-table/pkgs/npm/advanced-freeze-panes-table)
 package. This repo contains **only the built demo** (compiled `dist/` + `index.html`) —
 the premium source code stays in its private repository.
+
+## Get a license
+
+Enjoying the demo? The full package adds **adaptive mode**, **right-side freeze**,
+**boundary-stick panes**, **themes**, **densities**, **bold panes**, **header
+arrows**, and **image/text cells** — perfect for financial and data-heavy grids.
+
+Email **[hellocodespriha@gmail.com](mailto:hellocodespriha@gmail.com)** with
+your GitHub username to purchase a commercial license and obtain read access.
+
+After your license is approved:
+
+1. We add your GitHub account as a read collaborator on the private
+   `advanced-freeze-panes-table` repository.
+2. You create a personal access token with read access:
+   - Fine-grained token: **Settings → Developer settings → Personal access
+     tokens → Fine-grained tokens**, scoped to the
+     `advanced-freeze-panes-table` repository with **Packages → Read**.
+   - Or a classic token with the `read:packages` scope.
+3. Add it to your project's `.npmrc`:
+
+```ini
+@codespriha:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=<YOUR_READ_TOKEN>
+```
+
+4. Install:
+
+```bash
+npm install @codespriha/advanced-freeze-panes-table
+```
+
+Tokens are granted per customer and can be revoked at any time.
 
 ## View
 
